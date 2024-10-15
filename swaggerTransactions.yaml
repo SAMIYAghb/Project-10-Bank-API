@@ -1,0 +1,391 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Argent Bank Transactions API
+  description: API for managing Argent Bank transactions, including viewing, editing categories, and adding notes.
+  termsOfService: None
+  contact:
+    name: Samiya bouridane
+host: localhost:3001
+basePath: /api/v1
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Login'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Login Successfully
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+  /user/profile:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserProfile'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+  /user/accounts:
+     get:
+      security:
+        - Bearer: []
+      tags:
+        - User transaction Module
+      summary: Recover bank accounts
+      description: API for fetching a user profile to recover bank accounts
+      parameters:
+        - in: header
+          type : string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Retrieve all user's bank accounts successully
+          schema:
+            $ref: '#/definitions/Accounts'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+  /user/account/transaction/{transactionId}:
+     get:
+      security:
+        - Bearer: []
+      tags:
+        - User transaction Module
+      summary: Recover bank account transaction
+      description: API for fetching a user profile to recover transaction  
+      parameters:
+        - in: header
+          type : string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: User's transaction ID
+          type: integer
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionsDetails'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+  /user/account/transaction/{transactionId}/edit/category:
+     put:
+      security:
+        - Bearer: []
+      tags:
+        - User transaction Module
+      summary: Update category of transaction
+      description: API for fetching a user profile to update transaction category 
+      parameters:
+        - in: header
+          type : string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: User's transaction ID
+          type: integer
+          required: true
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: '#/definitions/BodyEditTransactionCategory'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction category update successully
+          schema:
+            $ref: '#/definitions/EditTransactionCategory'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+  /user/account/transaction/{transactionId}/edit/notes:
+     put:
+      security:
+        - Bearer: []
+      tags:
+        - User transaction Module
+      summary: Update notes of transaction
+      description: API for fetching a user profile to update transaction note 
+      parameters:
+        - in: header
+          type : string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          description: User's transaction ID
+          type: integer
+          required: true
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+        
+          schema:
+            $ref: '#/definitions/BodyEditTransactionNote'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction note update successully
+          schema:
+            $ref: '#/definitions/EditTransactionNote'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    
+definitions:
+  Login:
+    properties:
+      email:
+        type: string
+        description: user email
+        example: andy@proton.com
+      password:
+        type: string
+        description: user password
+
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+            example: andy@proton.com
+          firstName:
+            type: string
+            description: user first name
+          lastName:
+            type: string
+            description: user last name
+            
+            
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+        
+  UserProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+
+  Accounts:
+    type: object
+    description : Accounts lists for this user
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items: 
+          type: object
+          properties:
+            id:
+              type: string
+              description : id of account
+              example: d290f1ee-6c54-4b01-90e6-d701748f0851
+            name:
+              type: string
+              description: name of account
+              example: Compte courant
+            balance:
+              type: integer
+              description: balance of the Account
+              example: 1000,00
+
+  TransactionsDetails:
+    type: object
+    description : transaction recover
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description : id of transaction
+              example: d290f1ee-6c54-4b01-90e6-d701748f0851
+            amount:
+              type: string
+              description: transaction amount($)
+              example: 100,00
+            date:
+              format: date-time
+              example: 2016-08-29T09:12:33.001+0000
+              description: transaction date
+              type: string
+            description:
+              type: string
+              description: description of the transaction
+              example: Golden sun Bakery
+            type:
+              type: string
+              description: type of transaction
+              example: Deposit
+            comment:
+              type: string
+              description: notes of transaction
+              example: Transfer from my current account
+            category:
+              type: string
+              description: category of transaction
+              example: Food
+
+  BodyEditTransactionCategory : 
+    type: object
+    description : Edit category of transaction
+    properties :
+        category:
+          type: string
+          description: category of transaction
+          example: Car's repair
+  
+  EditTransactionCategory :
+    type: object
+    description : Api response
+    properties:
+        status:
+          type: integer
+        message:
+          type: string
+        category:
+          type: string
+          description: category of transaction
+          example: Car's repair          
+          
+  BodyEditTransactionNote : 
+    type: object
+    description : Edit notes of transaction
+    properties :
+        comment:
+            type: string
+            description: notes of transaction
+            example: Transfer from my current account
+  
+  EditTransactionNote :
+    type: object
+    description : Api response
+    properties:
+        status:
+          type: integer
+        message:
+          type: string  
+        comment:
+          type: string
+          description: notes of transaction
+          example: Transfer from my current account
+      

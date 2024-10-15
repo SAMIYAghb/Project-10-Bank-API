@@ -1,0 +1,29 @@
+.card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 0 1.5rem;
+    margin: 0 2rem;
+    border: 2px solid #b9c7d5;
+}
+.viewButton{
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    background: #6558f5;
+    color: #fff;
+    cursor: pointer;
+}
+
+.viewButton:hover{
+    border: 2px solid #6558f5;
+    color: #6558f5;
+    background:#fff;
+}
+.cardContent{
+    text-align: left;
+}
+.cardText{
+    font-size: 13px;
+}

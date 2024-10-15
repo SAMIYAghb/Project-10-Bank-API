@@ -1,0 +1,28 @@
+/* .nav{
+    background: #000;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    padding: 0 2rem;
+    z-index: 10;
+    color: #5b5b5b;
+}
+
+.logo{
+    height: 4rem;
+}
+
+.nav a{
+    color: #5b5b5b;
+    text-decoration: none;
+    font-size: 1.4rem;
+}
+
+.sign{
+    padding: 10px;
+} */
